@@ -1,0 +1,20 @@
+#
+# create a build, stage, directory for ofi
+#
+#   mkdir build && cd build
+#
+# then invoke the "do simple configure" script like this:
+#
+#   bash ../do_simple_configure
+#
+
+set -ex
+
+srcdir=${1:-@libfabric_srcdir@}
+installdir=${2:-@ac_abs_confdir@/install}
+
+$srcdir/configure							\
+--prefix=$installdir							\
+--host=powerpc64-bgq-linux						\
+CONFIG_SITE=@ac_abs_confdir@/config.site
+

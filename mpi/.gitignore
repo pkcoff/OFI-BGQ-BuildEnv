@@ -1,0 +1,4 @@
+mpich
+build
+stage
+simple_configure

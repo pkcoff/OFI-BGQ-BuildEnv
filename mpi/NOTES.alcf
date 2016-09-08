@@ -1,0 +1,10 @@
+#
+# This file contains notes for building mpich in the ALCF environment.
+#
+
+# 1. The mpich distribution requires a newer version of autotools; use the
+#    '--with-autotools' option for the mpich autogen.sh script
+
+cd mpich && ./autogen.sh --with-autotools=/soft/buildtools/autotools/feb2015/bin
+
+

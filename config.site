@@ -1,0 +1,104 @@
+
+echo "==============================================="
+
+: ${host:=powerpc64-bgq-linux}
+: ${build:=powerpc64-unknown-linux}
+echo "host=$host"
+echo "buld=$build"
+
+# by default the mpich configure will attempt to use powerpc64-bgq-linux-xlc if
+# it is available - the only way to override this bahavior is to explicitly set
+# the toolchain environment variables
+case $CONFIG_TOOLCHAIN in
+	xl)
+		echo "ibm xl toolchain"
+		;;
+	clang)
+		echo "clang/llvm toolchain"
+		;;
+	gnu4.7)
+		echo "gnu 4.7 toolchain"
+		;;
+	*)
+		echo "default gnu toolchain"
+		: ${AR:=/bgsys/drivers/ppcfloor/gnu-linux/bin/powerpc64-bgq-linux-ar}
+		: ${CC:=/bgsys/drivers/ppcfloor/gnu-linux/bin/powerpc64-bgq-linux-gcc}
+		: ${CXX:=/bgsys/drivers/ppcfloor/gnu-linux/bin/powerpc64-bgq-linux-g++}
+		: ${F77:=/bgsys/drivers/ppcfloor/gnu-linux/bin/powerpc64-bgq-linux-gfortran}
+		: ${FC:=/bgsys/drivers/ppcfloor/gnu-linux/bin/powerpc64-bgq-linux-gfortran}
+		: ${LD:=/bgsys/drivers/ppcfloor/gnu-linux/bin/powerpc64-bgq-linux-ld}
+		;;
+esac
+echo "AR=$AR"
+echo "CC=$CC"
+echo "CXX=$CXX"
+echo "F77=$F77"
+echo "FC=$FC"
+echo "LD=$LD"
+
+
+
+if test "$PACKAGE_NAME" = "libfabric" ; then
+
+	enable_direct=bgq && echo "enable_direct=$enable_direct"
+	enable_bgq=yes && echo "enable_bgq=$enable_bgq"
+	enable_usnic=no && echo "enable_usnic=$enable_usnic"
+	enable_psm=no && echo "enable_psm=$enable_psm"
+	enable_verbs=no && echo "enable_verbs=$enable_verbs"
+	enable_sockets=no && echo "enable_sockets=$enable_sockets"
+	enable_udp=no && echo "enable_udp=$enable_udp"
+	enable_rxm=no && echo "enable_rxm=$enable_rxm"
+	enable_rxd=no && echo "enable_rxd=$enable_rxd"
+
+	if test "$FROM_MPICH" = "yes" ; then
+		enable_embedded=yes
+		echo "enable_embedded=$enable_embedded"
+	fi
+fi
+
+
+if test "$PACKAGE_NAME" = "MPICH" ; then
+
+	# specify the'ch4' device, 'ofi' netmod, and netmod arguments
+	with_device=ch4:ofi && echo "with_device=$with_device"
+	with_ch4_netmod_ofi_args=direct-provider:static-fabric:no-data && echo "with_ch4_netmod_ofi_args=$with_ch4_netmod_ofi_args"
+
+	# mpich 'peeks' at this libfabric configure variable, but since the
+	# variables are guarded with the 'PACKAGE_NAME' check this particular
+	# variable must be set twice
+	enable_direct=bgq && echo "enable_direct=$enable_direct"
+
+	# mpich does not need to configure and build the pm and pmi components
+	# because the bgq control system is the 'process manager' and the ofi
+	# bgq provider embeds an implementation of pmi
+	with_pm=no && echo "with_pm=$with_pm"
+	with_pmi=no && echo "with_pmi=$with_pmi"
+	MPID_NO_PMI=yes && echo "MPID_NO_PMI=$MPID_NO_PMI"
+
+
+
+
+	# debug options
+	enable_g=dbg && echo "enable_g=$enable_g"
+	enable_error_checking=all && echo "enable_error_checking=$enable_error_checking"
+	enable_error_messages=all && echo "enable_error_messages=$enable_error_messages"
+	enable_fast=no && echo "enable_fast=$enable_fast"
+
+
+	# disable support for debuggers
+	enable_debuginfo=no && echo "enable_debuginfo=$enable_debuginfo"
+
+	# turn on configure caching
+	enable_cache=yes && echo "enable_cache=$enable_cache"
+
+	# disable library versioning
+	enable_versioning=no && echo "enable_versioning=$enable_versioning"
+
+	# speeds up not-one-time builds
+	enable_dependency_tracking=yes && echo "enable_dependency_tracking=$enable_dependency_tracking"
+
+
+fi
+
+echo "==============================================="
+true
