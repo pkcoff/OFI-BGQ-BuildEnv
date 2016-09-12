@@ -1,4 +1,4 @@
 mpich
-build
-stage
+build*
+stage*
 simple_configure

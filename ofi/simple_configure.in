@@ -3,18 +3,28 @@
 #
 #   mkdir build && cd build
 #
-# then invoke the "do simple configure" script like this:
+# then invoke the "simple configure" script to use the default toolchain:
 #
-#   bash ../do_simple_configure
+#   bash ../simple_configure
 #
+# you may specify an alternative toolchain by settign the 'CONFIG_TOOLCHAIN'
+# envionment variable:
+#
+#   CONFIG_TOOLCHAIN=gnu4.7 bash ../simple_configure
+#
+# where the toolchain is one of:
+#   gnu
+#   gnu4.7
+#   clang
+#   xl
 
 set -ex
 
 srcdir=${1:-@libfabric_srcdir@}
 installdir=${2:-@ac_abs_confdir@/install}
 
-$srcdir/configure							\
---prefix=$installdir							\
---host=powerpc64-bgq-linux						\
-CONFIG_SITE=@ac_abs_confdir@/config.site
+: ${CONFIG_TOOLCHAIN:=gnu}
+
+CONFIG_SITE=@ac_abs_confdir@/config.site	\
+$srcdir/configure --prefix=$installdir
 

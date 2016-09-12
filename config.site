@@ -12,12 +12,33 @@ echo "buld=$build"
 case $CONFIG_TOOLCHAIN in
 	xl)
 		echo "ibm xl toolchain"
+		# Use the bg xl compilers from $PATH
+		: ${AR:=`which powerpc64-bgq-linux-ar`}
+		: ${CC:=`which powerpc64-bgq-linux-xlc`}
+		: ${CXX:=`which powerpc64-bgq-linux-xlC`}
+		: ${F77:=`which powerpc64-bgq-linux-xlf`}
+		: ${FC:=`which powerpc64-bgq-linux-xlf2008`}
+		: ${LD:=`which powerpc64-bgq-linux-ld`}
+
 		;;
 	clang)
 		echo "clang/llvm toolchain"
+		: ${AR:=/bgsys/drivers/ppcfloor/gnu-linux/bin/powerpc64-bgq-linux-ar}
+		: ${CC:=/soft/compilers/bgclang/bin/bgclang}
+		: ${CXX:=/soft/compilers/bgclang/bin/bgclang}
+		: ${F77:=/bgsys/drivers/ppcfloor/gnu-linux/bin/powerpc64-bgq-linux-gfortran}
+		: ${FC:=/bgsys/drivers/ppcfloor/gnu-linux/bin/powerpc64-bgq-linux-gfortran}
+		: ${LD:=/bgsys/drivers/ppcfloor/gnu-linux/bin/powerpc64-bgq-linux-ld}
 		;;
 	gnu4.7)
 		echo "gnu 4.7 toolchain"
+		: ${AR:=/bgsys/drivers/ppcfloor/gnu-linux-4.7.2/bin/powerpc64-bgq-linux-ar}
+		: ${CC:=/bgsys/drivers/ppcfloor/gnu-linux-4.7.2/bin/powerpc64-bgq-linux-gcc}
+		: ${CXX:=/bgsys/drivers/ppcfloor/gnu-linux-4.7.2/bin/powerpc64-bgq-linux-g++}
+		: ${F77:=/bgsys/drivers/ppcfloor/gnu-linux-4.7.2/bin/powerpc64-bgq-linux-gfortran}
+		: ${FC:=/bgsys/drivers/ppcfloor/gnu-linux-4.7.2/bin/powerpc64-bgq-linux-gfortran}
+		: ${LD:=/bgsys/drivers/ppcfloor/gnu-linux-4.7.2/bin/powerpc64-bgq-linux-ld}
+
 		;;
 	*)
 		echo "default gnu toolchain"
