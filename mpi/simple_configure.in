@@ -73,23 +73,7 @@ export MAX_OPT=O3
 CONFIG_SITE=@ac_abs_confdir@/config.site				\
 $srcdir/configure							\
 --prefix=$installdir							\
---with-device=ch4:ofi							\
---enable-romio=yes							\
---enable-fortran=all							\
---with-fwrapname=mpigf							\
---with-file-system=ufs+nfs						\
 --enable-threads=multiple						\
 --enable-thread-cs=global						\
---enable-handle-allocation=default					\
---enable-ch4-shm=no							\
---with-ch4-netmod-ofi-args=direct-provider:static-fabric:no-data	\
---with-mpe=no								\
---with-smpcoll=yes							\
---without-valgrind							\
---enable-timing=runtime							\
---with-aint-size=8							\
---with-assert-level=2							\
---enable-shared								\
---enable-sharedlibs=gcc							\
---enable-dynamiclibs							
+--enable-handle-allocation=default
 #

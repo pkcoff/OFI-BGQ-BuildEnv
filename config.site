@@ -80,9 +80,10 @@ fi
 
 if test "$PACKAGE_NAME" = "MPICH" ; then
 
-	# specify the'ch4' device, 'ofi' netmod, and netmod arguments
+	# specify the 'ch4' options
 	with_device=ch4:ofi && echo "with_device=$with_device"
-	with_ch4_netmod_ofi_args=direct-provider:static-fabric:no-data && echo "with_ch4_netmod_ofi_args=$with_ch4_netmod_ofi_args"
+	with_ch4_netmod_ofi_args=direct-provider:no-data && echo "with_ch4_netmod_ofi_args=$with_ch4_netmod_ofi_args"
+	enable_ch4_shm=no
 
 	# mpich 'peeks' at this libfabric configure variable, but since the
 	# variables are guarded with the 'PACKAGE_NAME' check this particular
@@ -96,7 +97,11 @@ if test "$PACKAGE_NAME" = "MPICH" ; then
 	with_pmi=no && echo "with_pmi=$with_pmi"
 	MPID_NO_PMI=yes && echo "MPID_NO_PMI=$MPID_NO_PMI"
 
+	with_valgrind=no && echo "with_valgrind=$with_valgrind"
+	enable_timing=no && echo "enable_timing=$enable_timing"
 
+	enable_shared=yes && echo "enable_shared=$enable_shared"
+	enable_static=yes && echo "enable_static=$enable_static"
 
 
 	# debug options
@@ -120,6 +125,13 @@ if test "$PACKAGE_NAME" = "MPICH" ; then
 
 
 fi
+
+if test "$PACKAGE_NAME" = "ROMIO" ; then
+
+	with_file_system=ufs+nfs && echo "with_file_system=$with_file_system"
+
+fi
+
 
 echo "==============================================="
 true
