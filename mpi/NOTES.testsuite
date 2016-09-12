@@ -1,0 +1,41 @@
+coll/bcast_full -np 4			Completes successfully in ~23 minutes
+pt2pt/sendrecv1 -np 4			Completes successfully in ~7 minutes
+datatype/darray-pack -np 72		Completes successfully in 10 seconds .. Needs lots of ranks
+rma/lockall_dt_flush -np 4		Completes successfully in ~16 minutes
+rma/lockall_dt_flushlocal -np 4		Completes successfully in ~16 minutes
+rma/lock_contention_dt -np 4		Completes successfully in ~15 minutes
+rma/lockall* -np 4			Completes successfully in ~20 minutes
+rma/rma-contig				Completes successfully in ~22 minutes
+rma/win_large_shm -np 4			Completes successfully if BG_SHAREDMEMSIZE > "1024MB"; otherwise "Fatal error in PMPI_Win_allocate_shared: Unable to allocate memory for MPI_Alloc_mem"
+rma/win_large_shm -np 3			Completes successfully if BG_SHAREDMEMSIZE > "1024MB"; otherwise "Fatal error in PMPI_Win_allocate_shared: Unable to allocate memory for MPI_Alloc_mem"
+
+========================================
+
+pt2pt/pingping -np 2			Requires > 60 minutes
+
+========================================
+
+coll/bcast_min_datatypes -np 10		Hangs
+coll/gather_big -np 10			if ppn > 1 ? "PE 7:ERROR: malloc of recvbuf failed" : "Assertion failed ... ofi/send.h at line 182: ctrl.rma_key < MPIDI_Global.max_huge_rmas"
+
+comm/comm_idup_iallreduce -np 6
+
+pt2pt/scancel2 -np 2			xfail
+
+========================================
+
+#rma/lockcontention3 -np 8		"Assertion failed ... ofi/am_impl.h at line 340: (int)index &lt; MPIDI_Global.max_huge_rmas"
+rma/lockall_dt -np 4			"Assertion failed ... ofi/am_impl.h at line 340: (int)index &lt; MPIDI_Global.max_huge_rmas"
+rma/lockall_dt_flushall -np 4		"Assertion failed ... ofi/am_impl.h at line 340: (int)index &lt; MPIDI_Global.max_huge_rmas"
+rma/lockall_dt_flushlocalall -np 4	"Assertion failed ... ofi/am_impl.h at line 340: (int)index &lt; MPIDI_Global.max_huge_rmas"
+rma/epochtest -np 4
+#rma/strided_acc_onelock -np 2		"Assertion failed ... ofi/am_impl.h at line 340: (int)index &lt; MPIDI_Global.max_huge_rmas"
+rma/window_creation -np 2		"OFI memory registration failed"
+rma/win_dynamic_acc -np 4		Fails due to mpich attempt to register vaddr '0' for memory region - see https://github.intel.com/csr/mpich-opa/issues/248
+rma/linked_list -np 4			"MPI_Compare_and_swap .. failed"
+rma/linked_list_fop -np 4		"MPI_Compare_and_swap .. failed"
+#rma/compare_and_swap -np 4		"MPI_Compare_and_swap .. failed"
+
+
+
+
