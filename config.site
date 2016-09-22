@@ -71,6 +71,8 @@ if test "$PACKAGE_NAME" = "libfabric" ; then
 	enable_rxm=no && echo "enable_rxm=$enable_rxm"
 	enable_rxd=no && echo "enable_rxd=$enable_rxd"
 
+	with_dlopen=no && echo "with_dlopen=$with_dlopen"
+
 	if test "$FROM_MPICH" = "yes" ; then
 		enable_embedded=yes
 		echo "enable_embedded=$enable_embedded"
