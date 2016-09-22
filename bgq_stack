@@ -1,0 +1,107 @@
+#!/usr/bin/perl
+#
+# rml
+# initial port to BG/Q  2/15/2012
+#
+# killough 4/20/2012
+# enhancement to allow only core file and demangling options
+#
+
+use strict;
+use warnings qw(FATAL all);
+
+sub usage
+{
+  print <<EOF;
+
+This program uses addr2line to print a symbolic
+version of the stack in a BG/Q core file.
+
+Usage: $0 [addr2line opts] [executable] [corefile]
+
+EOF
+  exit 1;  
+}
+
+my ($infile, $exename, @opts, $while_executing_instruction) = ("-");
+
+push @opts, shift while @ARGV && $ARGV[0] =~ /^-/;
+
+if (@ARGV > 2 || grep /^--?h/, @opts) {
+    usage();
+} elsif (@ARGV == 2) {
+    ($exename, $infile) = @ARGV;
+} elsif (@ARGV) {
+    if (-x $ARGV[0]) {
+        ($exename) = @ARGV;
+    } else {
+        ($infile) = @ARGV;
+    }
+}
+
+open(INFILE, $infile) or die "$infile: $!\n";
+
+my ($foundstack, $foundid);
+
+MAIN: while (<INFILE>)
+{
+  if (/^Program\s*:\s*(.*)/) {
+     print "-"x72, "\n$_";
+     $exename = $1 if !defined $exename;
+  }         
+
+  if (/^\+\+\+ID/)
+    {
+      print "-"x72, "\n$_";
+      $foundid=1;
+      next;
+    }
+  if (/^While\ executing\ instruction\ at(.*)0x(.+?)$/)
+    {
+      $while_executing_instruction = $2 if !defined $while_executing_instruction;
+    }
+
+
+  next if !/^\+\+\+STACK$/;
+
+  $foundid or print "-"x72, "\n***No thread +++ID found for this +++STACK block\n";
+  ($foundstack,$foundid) = (1,0);
+
+  print "\n";
+
+  $exename = "a.out" if !defined $exename;
+
+  print "-"x72, "\n***Executable program $exename not found\n" if !-x $exename;
+
+STACK: while (<INFILE>)
+    {
+        next MAIN if /^---STACK$/;
+        next STACK if /^Frame Address/;
+        next if !defined $exename || !-x $exename;
+
+        # second column ("Saved Link Reg") is the address to decode
+        my (undef, $addr) = split;
+        print "$addr\n";
+        
+        # addr2line -f -e /path/to/executable <address1>
+        exit 1 if system "addr2line", @opts, qw(-f -e), $exename, $addr;
+
+        print "\n";
+    }
+
+  print STDERR "Missing end-of-stack text '---STACK' in input\n";
+  exit 1;
+}
+
+if (defined $while_executing_instruction)
+  {
+
+    print "="x72, "\nWhile executing insttruction at: $while_executing_instruction\n", "="x72, "\n";
+    exit 1 if system "addr2line", @opts, qw(-f -e), $exename, $while_executing_instruction;
+    print "="x72, "\n";
+  }
+
+exit 0 if $foundstack;
+
+print STDERR "Did not find any '+++STACK' blocks in input file\n";
+exit 1;
