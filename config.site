@@ -1,3 +1,5 @@
+#
+#
 
 echo "==============================================="
 
@@ -102,7 +104,11 @@ if test "$PACKAGE_NAME" = "MPICH" ; then
 	with_valgrind=no && echo "with_valgrind=$with_valgrind"
 	enable_timing=no && echo "enable_timing=$enable_timing"
 
-	enable_shared=yes && echo "enable_shared=$enable_shared"
+	if test "$CONFIG_TOOLCHAIN" = "xl" ; then
+		enable_shared=no && echo "enable_shared=$enable_shared"
+	else
+		enable_shared=yes && echo "enable_shared=$enable_shared"
+	fi
 	enable_static=yes && echo "enable_static=$enable_static"
 
 
