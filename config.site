@@ -125,6 +125,10 @@ if test "$PACKAGE_NAME" = "MPICH" ; then
 	# speeds up not-one-time builds
 	enable_dependency_tracking=yes && echo "enable_dependency_tracking=$enable_dependency_tracking"
 
+	MPICH_MPICC_LIBS="-lpthread -lrt" && echo "MPICH_MPICC_LIBS=$MPICH_MPICC_LIBS"
+	MPICH_MPICXX_LIBS="-lpthread -lrt" && echo "MPICH_MPICXX_LIBS=$MPICH_MPICXX_LIBS"
+	MPICH_MPIF77_LIBS="-lpthread -lrt" && echo "MPICH_MPIF77_LIBS=$MPICH_MPIF77_LIBS"
+	MPICH_MPIFORT_LIBS="-lpthread -lrt" && echo "MPICH_MPIFORT_LIBS=$MPICH_MPIFORT_LIBS"
 
 fi
 
