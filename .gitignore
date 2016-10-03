@@ -11,3 +11,5 @@ config.log
 config.status
 
 install
+make_release.sh
+public_release.sh

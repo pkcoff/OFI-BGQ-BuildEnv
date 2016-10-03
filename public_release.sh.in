@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# This script will configure, build, and install libfabric and mpich into
+# a "public" directory.
+#
+# By default, the libraries will be installed in the "/projects/aurora_app"
+# directory. An alternative project directory can be specified via the
+# PROJECT_DIRECTORY environment variable.
+#
+# Multiple toolchains can be specified as script input parameters. If no
+# toolchains are specified the "gnu" toolchain will be used. For example:
+#
+#   ./public_release.sh gnu gnu4.6 clang xl
+#
+
+: ${PROJECT_DIRECTORY:=/projects/aurora_app}
+
+INSTALL_DIRECTORY=${PROJECT_DIRECTORY} @ac_abs_confdir@/make_release.sh $*
+
+if [ $? -eq 0 ]; then
+
+
+	DIRS=`ls -r ${PROJECT_DIRECTORY}`
+	
+	rm -vf ${PROJECT_DIRECTORY}/previous
+	ln -vs `echo $DIRS | cut -d' ' -f2` ${PROJECT_DIRECTORY}/previous
+
+	rm -vf ${PROJECT_DIRECTORY}/latest
+	ln -vs `echo $DIRS | cut -d' ' -f1` ${PROJECT_DIRECTORY}/latest
+fi
+
+

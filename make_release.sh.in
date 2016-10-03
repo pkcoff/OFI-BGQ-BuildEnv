@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# This script will configure, build, and install libfabric and mpich.
+#
+# By default, the libraries will be installed in the "install" directory
+# of the top level directory.
+#
+# Multiple toolchains can be specified as script input parameters. If no
+# toolchains are specified the "gnu" toolchain will be used. For example:
+#
+#   ./make_release.sh gnu gnu4.6 clang xl
+#
+# Alternative directories can be specified for the INSTALL_DIRECTORY and
+# the individual RELEASE_DIRECTORY as environment variables
+
+umask 0002
+
+STAMP=`date +%Y_%j.%s`
+
+: ${INSTALL_DIRECTORY:=@ac_abs_confdir@/install}
+: ${RELEASE_DIRECTORY:=${INSTALL_DIRECTORY}/release.${STAMP}}
+
+OFI_DIRECTORY=`cd @ac_abs_confdir@/ofi && pwd`
+OFI_SOURCE_DIRECTORY="@libfabric_srcdir@"
+OFI_BUILD_DIRECTORY="${OFI_DIRECTORY}/build/release.${STAMP}"
+
+MPI_DIRECTORY=`cd @ac_abs_confdir@/mpi && pwd`
+MPI_SOURCE_DIRECTORY="@mpich_srcdir@"
+MPI_BUILD_DIRECTORY="${MPI_DIRECTORY}/build/release.${STAMP}"
+
+function configure_build_install() {
+
+	export CONFIG_TOOLCHAIN=$1
+	export INSTALL_DIR="${RELEASE_DIRECTORY}/${CONFIG_TOOLCHAIN}"
+
+	mkdir -p $OFI_BUILD_DIRECTORY/$CONFIG_TOOLCHAIN &&			\
+	cd $OFI_BUILD_DIRECTORY/$CONFIG_TOOLCHAIN &&				\
+	bash $OFI_DIRECTORY/simple_configure &&					\
+	make -j11 &&								\
+	make install &&								\
+										\
+	mkdir -p $MPI_BUILD_DIRECTORY/$CONFIG_TOOLCHAIN &&			\
+	cd $MPI_BUILD_DIRECTORY/$CONFIG_TOOLCHAIN &&				\
+	bash $MPI_DIRECTORY/simple_configure &&					\
+	make -j33 &&								\
+	make install								
+}
+
+if [ x"$1" = "x" ]; then
+	TOOLCHAINS=gnu
+else
+	TOOLCHAINS=$*
+fi
+
+for TOOLCHAIN in $TOOLCHAINS; do
+	configure_build_install $TOOLCHAIN
+	if [ $? != 0 ]; then
+		exit 1
+	fi
+done
+

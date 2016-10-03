@@ -20,11 +20,12 @@
 
 set -ex
 
+: ${INSTALL_DIR:-@ac_abs_confdir@/install}
+
 srcdir=${1:-@libfabric_srcdir@}
-installdir=${2:-@ac_abs_confdir@/install}
 
 : ${CONFIG_TOOLCHAIN:=gnu}
 
 CONFIG_SITE=@ac_abs_confdir@/config.site	\
-$srcdir/configure --prefix=$installdir
+$srcdir/configure --prefix=$INSTALL_DIR
 

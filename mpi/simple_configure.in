@@ -20,8 +20,9 @@
 
 set -ex
 
+: ${INSTALL_DIR:-@ac_abs_confdir@/install}
+
 srcdir=${1:-@mpich_srcdir@}
-installdir=${2:-@ac_abs_confdir@/install}
 
 # by default the mpich configure will attempt to use powerpc64-bgq-linux-xlc if
 # it is available - the only way to override this bahavior is to explicitly set
@@ -72,7 +73,7 @@ export MAX_OPT=O3
 
 CONFIG_SITE=@ac_abs_confdir@/config.site				\
 $srcdir/configure							\
---prefix=$installdir							\
+--prefix=$INSTALL_DIR							\
 --enable-threads=multiple						\
 --enable-thread-cs=global						\
 --enable-handle-allocation=default
