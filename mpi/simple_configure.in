@@ -20,7 +20,7 @@
 
 set -ex
 
-: ${INSTALL_DIR:-@ac_abs_confdir@/install}
+: ${INSTALL_DIR:=@ac_abs_confdir@/install}
 
 srcdir=${1:-@mpich_srcdir@}
 
