@@ -5,12 +5,12 @@
 #
 # then invoke the "simple configure" script to use the default toolchain:
 #
-#   bash ../simple_configure
+#   ../simple_configure
 #
 # you may specify an alternative toolchain by settign the 'CONFIG_TOOLCHAIN'
 # envionment variable:
 #
-#   CONFIG_TOOLCHAIN=gnu4.7 bash ../simple_configure
+#   CONFIG_TOOLCHAIN=gnu4.7 ../simple_configure
 #
 # where the toolchain is one of:
 #   gnu
