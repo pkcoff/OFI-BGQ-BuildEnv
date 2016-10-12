@@ -24,50 +24,15 @@ set -ex
 
 srcdir=${1:-@mpich_srcdir@}
 
-# by default the mpich configure will attempt to use powerpc64-bgq-linux-xlc if
-# it is available - the only way to override this bahavior is to explicitly set
-# the toolchain environment variables
-#export PATH=/bgsys/drivers/ppcfloor/gnu-linux/bin:${PATH}
-#export AR=`which powerpc64-bgq-linux-ar`
-#export LD=`which powerpc64-bgq-linux-ld`
-#export CC=`which powerpc64-bgq-linux-gcc`
-#export CXX=`which powerpc64-bgq-linux-g++`
-#export F77=`which powerpc64-bgq-linux-gfortran`
-#export FC=`which powerpc64-bgq-linux-gfortran`
-
-export GENERIC_OPT=""
-export CPU_OPT=${GENERIC_OPT}
 #export FLTO_OPT="-flto -ffat-lto-objects"
 #export FLTO_LD="-fuse-linker-plugin"
-export EXTRA_OPT="-falign-functions=16 -falign-loops=16 -finline-limit=268435456 ${FLTO_OPT} ${CPU_OPT}"
-export EXTRA_LD_OPT="${CPU_OPT} ${FLTO_OPT} ${FLTO_LD}"
-export EXTRA_LD_DEBUG="${CPU_OPT}"
-export EXTRA_DEBUG=""
 
-export DEBUGFLAG=-g
-export WALL=-Wall
-
-export MAX_OPT=O3
 # export EXTRA_OPT="-qnohot qipa=list:level=0:partition=small:nothreads -qinline=noauto:level=10 ${EXTRA_OPT}"
 # export EXTRA_LD_OPT="qipa=list:level=0:partition=small:nothreads -qinline=noauto:level=10 ${EXTRA_LD_OPT}"
 # export EXTRA_OPT="-qhot -qinline=auto:level=10 ${EXTRA_OPT}"
 # export EXTRA_LD_OPT="${EXTRA_LD_OPT}"
 # export QSUPPRESS="-qsuppress=1506-398 -qsuppress=1506-236 -qsuppress=1506-419 -qsuppress=1506-974 -qsuppress=1506-041 -qsuppress=1540-1088"
 # export WALL="-qflag=i:i -qsaveopt ${QSUPPRESS}"
-
-
-
-#OPTFLAGS_COMMON="${WALL} ${DEBUGFLAG} -${MAX_OPT} ${EXTRA_OPT}"
-#OPTLDFLAGS_COMMON="-${MAX_OPT} ${EXTRA_LD_OPT}"
-#DEBUGFLAGS_COMMON="${WALL} ${DEBUGFLAG} -O0 ${EXTRA_DEBUG}"
-#DEBUGLDFLAGS_COMMON="-O0 ${EXTRA_LD_DEBUG}"
-
-#export MPICHLIB_CFLAGS="${DEBUGFLAGS_COMMON} ${EXTRA_C_DEBUG}"
-#export MPICHLIB_CXXFLAGS=${DEBUGFLAGS_COMMON}
-#export MPICHLIB_FCFLAGS=${DEBUGFLAGS_COMMON}
-#export MPICHLIB_FFLAGS=${DEBUGFLAGS_COMMON}
-#export MPICHLIB_F77FLAGS=${DEBUGFLAGS_COMMON}
-#export MPICHLIB_LDFLAGS=${DEBUGLDFLAGS_COMMON}
 
 : ${CONFIG_TOOLCHAIN:=gnu}
 

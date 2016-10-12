@@ -8,6 +8,8 @@ echo "==============================================="
 echo "host=$host"
 echo "buld=$build"
 
+: ${CONFIG_FLAVOR:=debug}
+
 # by default the mpich configure will attempt to use powerpc64-bgq-linux-xlc if
 # it is available - the only way to override this bahavior is to explicitly set
 # the toolchain environment variables
@@ -22,6 +24,9 @@ case $CONFIG_TOOLCHAIN in
 		: ${FC:=`which powerpc64-bgq-linux-xlf2008`}
 		: ${LD:=`which powerpc64-bgq-linux-ld`}
 
+		if test "$CONFIG_FLAVOR" = "optimized" ; then
+			OPT_CFLAGS="-qhot -qinline=800 -qflag=i:i -qsaveopt -qsuppress=1506-236"
+		fi
 		;;
 	clang)
 		echo "clang/llvm toolchain"
@@ -41,6 +46,9 @@ case $CONFIG_TOOLCHAIN in
 		: ${FC:=/bgsys/drivers/ppcfloor/gnu-linux-4.7.2/bin/powerpc64-bgq-linux-gfortran}
 		: ${LD:=/bgsys/drivers/ppcfloor/gnu-linux-4.7.2/bin/powerpc64-bgq-linux-ld}
 
+		if test "$CONFIG_FLAVOR" = "optimized" ; then
+			OPT_CFLAGS="-falign-functions=16 -falign-loops=16 -finline-limit=268435456"
+		fi
 		;;
 	*)
 		echo "default gnu toolchain"
@@ -50,6 +58,10 @@ case $CONFIG_TOOLCHAIN in
 		: ${F77:=/bgsys/drivers/ppcfloor/gnu-linux/bin/powerpc64-bgq-linux-gfortran}
 		: ${FC:=/bgsys/drivers/ppcfloor/gnu-linux/bin/powerpc64-bgq-linux-gfortran}
 		: ${LD:=/bgsys/drivers/ppcfloor/gnu-linux/bin/powerpc64-bgq-linux-ld}
+
+		if test "$CONFIG_FLAVOR" = "optimized" ; then
+			OPT_CFLAGS="-falign-functions=16 -falign-loops=16 -finline-limit=268435456"
+		fi
 		;;
 esac
 echo "AR=$AR"
@@ -111,13 +123,17 @@ if test "$PACKAGE_NAME" = "MPICH" ; then
 	fi
 	enable_static=yes && echo "enable_static=$enable_static"
 
-
-	# debug options
-	enable_g=dbg && echo "enable_g=$enable_g"
-	enable_error_checking=all && echo "enable_error_checking=$enable_error_checking"
-	enable_error_messages=all && echo "enable_error_messages=$enable_error_messages"
-	enable_fast=no && echo "enable_fast=$enable_fast"
-
+	if test "$CONFIG_FLAVOR" = "optimized" ; then
+		enable_g=none && echo "enable_g=$enable_g"
+		enable_error_checking=no && echo "enable_error_checking=$enable_error_checking"
+		enable_error_messages=none && echo "enable_error_messages=$enable_error_messages"
+		enable_fast=yes && echo "enable_fast=$enable_fast"
+	else
+		enable_g=dbg && echo "enable_g=$enable_g"
+		enable_error_checking=all && echo "enable_error_checking=$enable_error_checking"
+		enable_error_messages=all && echo "enable_error_messages=$enable_error_messages"
+		enable_fast=no && echo "enable_fast=$enable_fast"
+	fi
 
 	# disable support for debuggers
 	enable_debuginfo=no && echo "enable_debuginfo=$enable_debuginfo"
@@ -136,6 +152,12 @@ if test "$PACKAGE_NAME" = "MPICH" ; then
 	MPICH_MPIF77_LIBS="-lpthread -lrt" && echo "MPICH_MPIF77_LIBS=$MPICH_MPIF77_LIBS"
 	MPICH_MPIFORT_LIBS="-lpthread -lrt" && echo "MPICH_MPIFORT_LIBS=$MPICH_MPIFORT_LIBS"
 
+	MPICHLIB_CPPFLAGS="-I/bgsys/drivers/ppcfloor/spi/include/kernel/cnk -I/bgsys/drivers/ppcfloor"
+
+	if test "$CONFIG_FLAVOR" = "optimized" ; then
+		MPICHLIB_CFLAGS=$OPT_CFLAGS
+		MPICHLIB_CXXFLAGS=$OPT_CFLAGS
+	fi
 fi
 
 if test "$PACKAGE_NAME" = "ROMIO" ; then
