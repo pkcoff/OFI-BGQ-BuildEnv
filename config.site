@@ -8,6 +8,7 @@ echo "==============================================="
 echo "host=$host"
 echo "buld=$build"
 
+: ${configdir=$PWD}
 : ${CONFIG_FLAVOR:=debug}
 
 # by default the mpich configure will attempt to use powerpc64-bgq-linux-xlc if
@@ -71,8 +72,6 @@ echo "F77=$F77"
 echo "FC=$FC"
 echo "LD=$LD"
 
-
-
 if test "$PACKAGE_NAME" = "libfabric" ; then
 
 	enable_direct=bgq && echo "enable_direct=$enable_direct"
@@ -92,7 +91,6 @@ if test "$PACKAGE_NAME" = "libfabric" ; then
 		echo "enable_embedded=$enable_embedded"
 	fi
 fi
-
 
 if test "$PACKAGE_NAME" = "MPICH" ; then
 
@@ -127,7 +125,7 @@ if test "$PACKAGE_NAME" = "MPICH" ; then
 		enable_g=none && echo "enable_g=$enable_g"
 		enable_error_checking=no && echo "enable_error_checking=$enable_error_checking"
 		enable_error_messages=none && echo "enable_error_messages=$enable_error_messages"
-		enable_fast=yes && echo "enable_fast=$enable_fast"
+		enable_fast=O3,ndebug && echo "enable_fast=$enable_fast"
 	else
 		enable_g=dbg && echo "enable_g=$enable_g"
 		enable_error_checking=all && echo "enable_error_checking=$enable_error_checking"
@@ -155,14 +153,17 @@ if test "$PACKAGE_NAME" = "MPICH" ; then
 	MPICHLIB_CPPFLAGS="-I/bgsys/drivers/ppcfloor/spi/include/kernel/cnk -I/bgsys/drivers/ppcfloor"
 
 	if test "$CONFIG_FLAVOR" = "optimized" ; then
-		MPICHLIB_CFLAGS=$OPT_CFLAGS
-		MPICHLIB_CXXFLAGS=$OPT_CFLAGS
+		MPICHLIB_CFLAGS="$OPT_CFLAGS -Wno-ignored-qualifiers -Wall -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I$configdir/src/mpid/ch4/netmod/ofi/libfabric/prov/bgq/include -I$srcdir/src/mpid/ch4/netmod/ofi/libfabric/prov/bgq/include"
+		MPICHLIB_CXXFLAGS="$OPT_CFLAGS -Wno-ignored-qualifiers -Wall -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I$configdir/src/mpid/ch4/netmod/ofi/libfabric/prov/bgq/include -I$srcdir/src/mpid/ch4/netmod/ofi/libfabric/prov/bgq/include"
+	else
+                MPICHLIB_CFLAGS="-Wno-ignored-qualifiers -Wall -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I$configdir/src/mpid/ch4/netmod/ofi/libfabric/prov/bgq/include -I$srcdir/src/mpid/ch4/netmod/ofi/libfabric/prov/bgq/include"
+                MPICHLIB_CXXFLAGS="-Wno-ignored-qualifiers -Wall -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I$configdir/src/mpid/ch4/netmod/ofi/libfabric/prov/bgq/include -I$srcdir/src/mpid/ch4/netmod/ofi/libfabric/prov/bgq/include"
 	fi
 fi
 
 if test "$PACKAGE_NAME" = "ROMIO" ; then
 
-	with_file_system=ufs+nfs && echo "with_file_system=$with_file_system"
+	with_file_system=ufs+nfs+gpfs && echo "with_file_system=$with_file_system"
 
 fi
 
