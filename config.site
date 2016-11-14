@@ -96,7 +96,9 @@ if test "$PACKAGE_NAME" = "MPICH" ; then
 
 	# specify the 'ch4' options
 	with_device=ch4:ofi && echo "with_device=$with_device"
-	with_ch4_netmod_ofi_args=scalable-endpoints:direct-provider:no-data:no-stx-rma && echo "with_ch4_netmod_ofi_args=$with_ch4_netmod_ofi_args"
+#Currently there are issues with scalable endpoints so do not enable them for now
+#	with_ch4_netmod_ofi_args=scalable-endpoints:direct-provider:no-data:no-stx-rma && echo "with_ch4_netmod_ofi_args=$with_ch4_netmod_ofi_args"
+	with_ch4_netmod_ofi_args=direct-provider:no-data:no-stx-rma && echo "with_ch4_netmod_ofi_args=$with_ch4_netmod_ofi_args"
 	enable_ch4_shm=no
 
 	# mpich 'peeks' at this libfabric configure variable, but since the
