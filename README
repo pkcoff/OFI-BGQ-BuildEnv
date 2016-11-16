@@ -5,7 +5,7 @@ git clone https://github.com/pkcoff/OFI-BGQ-BuildEnv.git
 
 Then clone the libfabric github repo into this environment:
 cd OFI-BGQ-BuildEnv/ofi
-git clone https://github.com/pkcoff/libfabric.git
+git clone https://github.com/ofiwg/libfabric.git
 
 Then clone the mpich github repo into this environment:
 cd ../mpi
