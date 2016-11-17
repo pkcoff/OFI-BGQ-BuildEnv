@@ -38,27 +38,27 @@ case $CONFIG_TOOLCHAIN in
 		: ${FC:=/bgsys/drivers/ppcfloor/gnu-linux/bin/powerpc64-bgq-linux-gfortran}
 		: ${LD:=/bgsys/drivers/ppcfloor/gnu-linux/bin/powerpc64-bgq-linux-ld}
 		;;
-	gnu4.7)
-		echo "gnu 4.7 toolchain"
-		: ${AR:=/bgsys/drivers/ppcfloor/gnu-linux-4.7.2/bin/powerpc64-bgq-linux-ar}
-		: ${CC:=/bgsys/drivers/ppcfloor/gnu-linux-4.7.2/bin/powerpc64-bgq-linux-gcc}
-		: ${CXX:=/bgsys/drivers/ppcfloor/gnu-linux-4.7.2/bin/powerpc64-bgq-linux-g++}
-		: ${F77:=/bgsys/drivers/ppcfloor/gnu-linux-4.7.2/bin/powerpc64-bgq-linux-gfortran}
-		: ${FC:=/bgsys/drivers/ppcfloor/gnu-linux-4.7.2/bin/powerpc64-bgq-linux-gfortran}
-		: ${LD:=/bgsys/drivers/ppcfloor/gnu-linux-4.7.2/bin/powerpc64-bgq-linux-ld}
-
-		if test "$CONFIG_FLAVOR" = "optimized" ; then
-			OPT_CFLAGS="-falign-functions=16 -falign-loops=16 -finline-limit=268435456"
-		fi
-		;;
-	*)
-		echo "default gnu toolchain"
+	gnu)
+		echo "gnu toolchain"
 		: ${AR:=/bgsys/drivers/ppcfloor/gnu-linux/bin/powerpc64-bgq-linux-ar}
 		: ${CC:=/bgsys/drivers/ppcfloor/gnu-linux/bin/powerpc64-bgq-linux-gcc}
 		: ${CXX:=/bgsys/drivers/ppcfloor/gnu-linux/bin/powerpc64-bgq-linux-g++}
 		: ${F77:=/bgsys/drivers/ppcfloor/gnu-linux/bin/powerpc64-bgq-linux-gfortran}
 		: ${FC:=/bgsys/drivers/ppcfloor/gnu-linux/bin/powerpc64-bgq-linux-gfortran}
 		: ${LD:=/bgsys/drivers/ppcfloor/gnu-linux/bin/powerpc64-bgq-linux-ld}
+
+		if test "$CONFIG_FLAVOR" = "optimized" ; then
+			OPT_CFLAGS="-falign-functions=16 -falign-loops=16 -finline-limit=268435456"
+		fi
+		;;
+	*)
+		echo "default gnu 4.7 toolchain"
+		: ${AR:=/bgsys/drivers/ppcfloor/gnu-linux-4.7.2/bin/powerpc64-bgq-linux-ar}
+		: ${CC:=/bgsys/drivers/ppcfloor/gnu-linux-4.7.2/bin/powerpc64-bgq-linux-gcc}
+		: ${CXX:=/bgsys/drivers/ppcfloor/gnu-linux-4.7.2/bin/powerpc64-bgq-linux-g++}
+		: ${F77:=/bgsys/drivers/ppcfloor/gnu-linux-4.7.2/bin/powerpc64-bgq-linux-gfortran}
+		: ${FC:=/bgsys/drivers/ppcfloor/gnu-linux-4.7.2/bin/powerpc64-bgq-linux-gfortran}
+		: ${LD:=/bgsys/drivers/ppcfloor/gnu-linux-4.7.2/bin/powerpc64-bgq-linux-ld}
 
 		if test "$CONFIG_FLAVOR" = "optimized" ; then
 			OPT_CFLAGS="-falign-functions=16 -falign-loops=16 -finline-limit=268435456"

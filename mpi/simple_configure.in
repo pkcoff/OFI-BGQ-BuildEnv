@@ -34,7 +34,7 @@ srcdir=${1:-@mpich_srcdir@}
 # export QSUPPRESS="-qsuppress=1506-398 -qsuppress=1506-236 -qsuppress=1506-419 -qsuppress=1506-974 -qsuppress=1506-041 -qsuppress=1540-1088"
 # export WALL="-qflag=i:i -qsaveopt ${QSUPPRESS}"
 
-: ${CONFIG_TOOLCHAIN:=gnu}
+: ${CONFIG_TOOLCHAIN:=gnu4.7}
 
 CONFIG_SITE=@ac_abs_confdir@/config.site				\
 $srcdir/configure							\
