@@ -40,6 +40,7 @@ CONFIG_SITE=@ac_abs_confdir@/config.site				\
 $srcdir/configure							\
 --prefix=$INSTALL_DIR							\
 --enable-threads=multiple						\
+--enable-timer-type=ppc64_cycle                                         \
 --enable-thread-cs=global						\
 --enable-handle-allocation=default
 #
