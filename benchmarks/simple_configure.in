@@ -1,0 +1,39 @@
+#!/bin/bash
+
+#
+# From a configured and installed mpich build directory, invoke this
+# "simple_configure" script to configure the osu benchmarks in the
+# mpich build directory to use the correct mpicc. No command line
+# parameters are needed.
+#
+
+srcdir=@benchmarks_srcdir@
+osu_srcdir=${srcdir}/osu-micro-benchmarks-5.3.2
+osu_tgz=osu-micro-benchmarks-5.3.2.tar.gz
+
+if [ ! -d "${osu_srcdir}" ]; then
+(
+  cd ${srcdir} && rm -vf osu-micro-benchmarks*				&& \
+  wget http://mvapich.cse.ohio-state.edu/download/mvapich/${osu_tgz}	&& \
+  tar xzf ${osu_tgz}
+)
+fi
+
+MPI_INSTALL=`grep ^prefix.= Makefile | cut -d' ' -f3`
+mpi_install=${1:-${MPI_INSTALL}}
+if [ "x${mpi_install}" == "x" ]; then
+  echo "mpi install directory not found ('${mpi_install}')"
+  exit 1
+fi
+
+if [ ! -f ${mpi_install}/bin/mpicc ]; then
+  echo "mpi compile script not found ('${mpi_install}/bin/mpicc')"
+  exit 1
+fi
+
+#(
+  mkdir -p osu-micro-benchmarks && cd osu-micro-benchmarks		&& \
+  ${osu_srcdir}/configure CC=${mpi_install}/bin/mpicc
+#)
+
+#

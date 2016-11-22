@@ -6,6 +6,7 @@ AM_INIT_AUTOMAKE([foreign subdir-objects])
 AC_CONFIG_SRCDIR([ofi])
 AC_CONFIG_FILES([ofi/simple_configure],[chmod +x ofi/simple_configure])
 AC_CONFIG_FILES([mpi/simple_configure],[chmod +x mpi/simple_configure])
+AC_CONFIG_FILES([benchmarks/simple_configure],[chmod +x benchmarks/simple_configure])
 AC_CONFIG_FILES([make_release.sh],[chmod +x make_release.sh])
 AC_CONFIG_FILES([public_release.sh],[chmod +x public_release.sh])
 dnl AM_CONFIG_HEADER(config.h)
@@ -33,6 +34,9 @@ AC_ARG_WITH([mpich],
 		[specify path to mpich source directory; default=$MPICH_SRCDIR])],
 	[MPICH_SRCDIR=$with_mpich])
 AC_SUBST(mpich_srcdir, [$MPICH_SRCDIR])
+
+BENCHMARKS_SRCDIR=$ac_abs_confdir/benchmarks
+AC_SUBST(benchmarks_srcdir, [$BENCHMARKS_SRCDIR])
 
 AC_SUBST(ac_abs_confdir, [$ac_abs_confdir])
 
