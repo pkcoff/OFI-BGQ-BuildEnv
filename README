@@ -1,4 +1,4 @@
-This README contains instructions on how to download and build MPICH CH4 over OFI Libfabric on Blue Gene /Q.  There are three github repositories with the relevant code.  The first of these is this github which is the build environment itself.
+This README contains instructions on how to download and build MPICH CH4 over OFI Libfabric on Blue Gene /Q.  Please note that the V1R2M4 driver is required.  There are three github repositories with the relevant code.  The first of these is this github which is the build environment itself.
 mkdir <build_env_root_dir>
 cd  <build_env_root_dir>
 git clone https://github.com/pkcoff/OFI-BGQ-BuildEnv.git
@@ -25,8 +25,33 @@ cd ../../mpi/mpich
 cd ..
 vi simple_configure
   --- change : ${INSTALL_DIR:= to the install dir you want
+
+--------------------------------------------------------------------------------------------
+
+SPECIAL NOTE FOR BUILDING ON MIRA:
+Mira is currently still at V1R2M2 and has not yet moved to V1R2M4.  As a workaround for now,
+the V1R2M4 system files have been made available in /soft/libraries/unsupported/V1R2M4-sys.
+To utilize them, you'll need to change the following 2 files:
+
+config.site: change this:
+
+MPICHLIB_CPPFLAGS="-I/bgsys/drivers/ppcfloor/spi/include/kernel/cnk -I/bgsys/drivers/ppcfloor"
+
+to this:
+
+MPICHLIB_CPPFLAGS="-I/soft/libraries/unsupported/V1R2M4-sys/spi/include/kernel/cnk -I/soft/libraries/unsupported/V1R2M4-sys"
+
+ofi/libfabric/prov/bgq/configure.m4: change this:
+
+bgq_driver=/bgsys/drivers/ppcfloor
+
+to this:
+
+bgq_driver=/soft/libraries/unsupported/V1R2M4-sys
   
-then for gnu build:
+--------------------------------------------------------------------------------------------
+
+then for gnu 4.7.2 build:
 cd <build_directory>
 DEBUG build:
 CONFIG_TOOLCHAIN=gnu  CONFIG_FLAVOR=debug <build_env_root_dir>/ofi-bgq/mpi/simple_configure
