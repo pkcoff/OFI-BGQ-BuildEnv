@@ -95,11 +95,12 @@ fi
 if test "$PACKAGE_NAME" = "MPICH" ; then
 
 	# specify the 'ch4' options
-	with_device=ch4:ofi && echo "with_device=$with_device"
+	with_device=ch4:ofi:bgq && echo "with_device=$with_device"
 #Currently there are issues with scalable endpoints so do not enable them for now
 #	with_ch4_netmod_ofi_args=scalable-endpoints:direct-provider:no-data:no-stx-rma && echo "with_ch4_netmod_ofi_args=$with_ch4_netmod_ofi_args"
 #	with_ch4_netmod_ofi_args=direct-provider:no-data:no-stx-rma && echo "with_ch4_netmod_ofi_args=$with_ch4_netmod_ofi_args"
-	with_ch4_netmod_ofi_args=direct-provider:no-stx-rma && echo "with_ch4_netmod_ofi_args=$with_ch4_netmod_ofi_args"
+#	with_ch4_netmod_ofi_args=direct-provider:no-stx-rma && echo "with_ch4_netmod_ofi_args=$with_ch4_netmod_ofi_args"
+	with_ch4_netmod_ofi_args=direct-provider && echo "with_ch4_netmod_ofi_args=$with_ch4_netmod_ofi_args"
 	enable_ch4_shm=no
 
 	# mpich 'peeks' at this libfabric configure variable, but since the
@@ -125,11 +126,13 @@ if test "$PACKAGE_NAME" = "MPICH" ; then
 	enable_static=yes && echo "enable_static=$enable_static"
 
 	if test "$CONFIG_FLAVOR" = "optimized" ; then
-		enable_g=none && echo "enable_g=$enable_g"
+#		enable-g=none && echo "enable-g=$enable-g"
+		enable_g=none && echo "enable-g=$enable-g"
 		enable_error_checking=no && echo "enable_error_checking=$enable_error_checking"
 		enable_error_messages=none && echo "enable_error_messages=$enable_error_messages"
 		enable_fast=O3,ndebug && echo "enable_fast=$enable_fast"
 	else
+#		enable-g=dbg,log && echo "enable-g=$enable-g"
 		enable_g=dbg && echo "enable_g=$enable_g"
 		enable_error_checking=all && echo "enable_error_checking=$enable_error_checking"
 		enable_error_messages=all && echo "enable_error_messages=$enable_error_messages"

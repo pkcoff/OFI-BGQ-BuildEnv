@@ -69,9 +69,9 @@ bgq_driver=/soft/libraries/unsupported/V1R2M4-sys
 then for gnu 4.7.2 build:
 cd <build_directory>
 DEBUG build:
-CONFIG_TOOLCHAIN=gnu  CONFIG_FLAVOR=debug <build_env_root_dir>/ofi-bgq/mpi/simple_configure
+CONFIG_TOOLCHAIN=gnu4.7  CONFIG_FLAVOR=debug <build_env_root_dir>/ofi-bgq/mpi/simple_configure
 OPT build:
-CONFIG_TOOLCHAIN=gnu  CONFIG_FLAVOR=optimized <build_env_root_dir>/ofi-bgq/mpi/simple_configure
+CONFIG_TOOLCHAIN=gnu4.7  CONFIG_FLAVOR=optimized <build_env_root_dir>/ofi-bgq/mpi/simple_configure
 
 then:
 make -j16 install
