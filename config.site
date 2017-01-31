@@ -97,9 +97,6 @@ if test "$PACKAGE_NAME" = "MPICH" ; then
 	# specify the 'ch4' options
 	with_device=ch4:ofi:bgq && echo "with_device=$with_device"
 #Currently there are issues with scalable endpoints so do not enable them for now
-#	with_ch4_netmod_ofi_args=scalable-endpoints:direct-provider:no-data:no-stx-rma && echo "with_ch4_netmod_ofi_args=$with_ch4_netmod_ofi_args"
-#	with_ch4_netmod_ofi_args=direct-provider:no-data:no-stx-rma && echo "with_ch4_netmod_ofi_args=$with_ch4_netmod_ofi_args"
-#	with_ch4_netmod_ofi_args=direct-provider:no-stx-rma && echo "with_ch4_netmod_ofi_args=$with_ch4_netmod_ofi_args"
 	with_ch4_netmod_ofi_args=direct-provider && echo "with_ch4_netmod_ofi_args=$with_ch4_netmod_ofi_args"
 	enable_ch4_shm=no
 
