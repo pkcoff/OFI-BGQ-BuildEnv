@@ -1,29 +1,30 @@
-This README contains instructions on how to download and build MPICH CH4 over OFI Libfabric on Blue Gene /Q.  Please note that the V1R2M4 driver is required.  There are three github repositories with the relevant code.  The first of these is this github which is the build environment itself.
+This README contains instructions on how to download and build MPICH CH4 over OFI Libfabric on Blue Gene /Q.  The following instuctions are tailored for Release 0.1 for now.  Please note that the V1R2M4 driver is required.  There are three github repositories with the relevant code.  The first of these is this github which is the build environment itself.
 mkdir <build_env_root_dir>
 cd  <build_env_root_dir>
 git clone https://github.com/pkcoff/OFI-BGQ-BuildEnv.git
 
-Then clone the libfabric github repo into this environment:
-cd OFI-BGQ-BuildEnv/ofi
+Then checkout the 'Release-0.1' branch:
 
-Normally you would clone this from the official OFIWG repo:
-git clone https://github.com/ofiwg/libfabric.git
+cd OFI-BGQ-BuildEnv
+git checkout Release-0.1
 
-However, due to a current configuration bug in MPICH master please use this pkcoff fork instead
+Then clone the pkcoff libfabric github repo into this environment:
+cd ofi
+
 git clone https://github.com/pkcoff/libfabric.git
 cd libfabric
-git checkout scalability-problem
+
+And checkout the 'BGQ-Release-0.1' branch:
+
+git checkout BGQ-Release-0.1
 cd ..
 
-Then clone the mpich github repo into this environment:
-cd ../mpi
-Normally you would clone from the official MPICH repo:
-git clone https://github.com/pmodels/mpich.git
+Then clone the pkcoff fork mpich github repo into this environment:
 
-However, due to a current configuration bug in master please use this pkcoff fork instead:
+cd ../mpi
 git clone https://github.com/pkcoff/mpich.git
 cd mpich
-git checkout bgq-reconfig-debug
+git checkout masterfork-bgq-rel-0.1
 cd ..
 
 Then create a link from the mpich directory into libfabric to support the libfabric embedded build within mpich:
@@ -65,6 +66,10 @@ to this:
 bgq_driver=/soft/libraries/unsupported/V1R2M4-sys
   
 --------------------------------------------------------------------------------------------
+
+For the 0.1 release both manual and auto progress modes are working.  The default is manual which means all progress is driven manually by mpich, auto progress spawns an ofi pthread that makes progress without depending on mpich.  To build with auto progress add this to the end of the config options in simple_configure:
+
+--with-bgq-progress=auto
 
 then for gnu 4.7.2 build:
 cd <build_directory>
