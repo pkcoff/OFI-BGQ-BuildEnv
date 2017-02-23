@@ -94,16 +94,9 @@ fi
 
 if test "$PACKAGE_NAME" = "MPICH" ; then
 
-	# specify the 'ch4' options
 	with_device=ch4:ofi:bgq && echo "with_device=$with_device"
 #Currently there are issues with scalable endpoints so do not enable them for now
-	with_ch4_netmod_ofi_args=direct-provider && echo "with_ch4_netmod_ofi_args=$with_ch4_netmod_ofi_args"
 	enable_ch4_shm=no
-
-	# mpich 'peeks' at this libfabric configure variable, but since the
-	# variables are guarded with the 'PACKAGE_NAME' check this particular
-	# variable must be set twice
-	enable_direct=bgq && echo "enable_direct=$enable_direct"
 
 	# mpich does not need to configure and build the pm and pmi components
 	# because the bgq control system is the 'process manager' and the ofi

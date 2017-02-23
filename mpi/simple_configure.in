@@ -42,5 +42,8 @@ $srcdir/configure							\
 --enable-threads=multiple						\
 --enable-timer-type=ppc64_cycle                                         \
 --enable-thread-cs=global						\
+--with-ch4-ofi-direct-provider=bgq					\
+--with-bgq-progress=manual						\
+--with-bgq-mr=basic							\
 --enable-handle-allocation=default
 #
