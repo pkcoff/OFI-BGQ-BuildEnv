@@ -1,12 +1,12 @@
-This README contains instructions on how to download and build MPICH CH4 over OFI Libfabric on Blue Gene /Q.  The following instuctions are tailored for Release 0.1 for now.  Please note that the V1R2M4 driver is required.  There are three github repositories with the relevant code.  The first of these is this github which is the build environment itself.
+This README contains instructions on how to download and build MPICH CH4 over OFI Libfabric on Blue Gene /Q.  The following instuctions are tailored for Release 0.2 for now.  Please note that the V1R2M4 driver is required.  There are three github repositories with the relevant code.  The first of these is this github which is the build environment itself.
 mkdir <build_env_root_dir>
 cd  <build_env_root_dir>
 git clone https://github.com/pkcoff/OFI-BGQ-BuildEnv.git
 
-Then checkout the 'Release-0.1' branch:
+Then checkout the 'Release-0.2' branch:
 
 cd OFI-BGQ-BuildEnv
-git checkout Release-0.1
+git checkout Release-0.2
 
 Then clone the pkcoff libfabric github repo into this environment:
 cd ofi
@@ -14,18 +14,15 @@ cd ofi
 git clone https://github.com/pkcoff/libfabric.git
 cd libfabric
 
-And checkout the 'BGQ-Release-0.1' branch:
+And checkout the 'BGQ-Release-0.2' branch:
 
-git checkout BGQ-Release-0.1
+git checkout BGQ-Release-0.2
 cd ..
 
-Then clone the pkcoff fork mpich github repo into this environment:
+Then clone the pmodels mpich github repo into this environment:
 
 cd ../mpi
-git clone https://github.com/pkcoff/mpich.git
-cd mpich
-git checkout masterfork-bgq-rel-0.1
-cd ..
+git clone https://github.com/pmodels/mpich.git
 
 Then create a link from the mpich directory into libfabric to support the libfabric embedded build within mpich:
 cd mpich/src/mpid/ch4/netmod/ofi &&   ln -s `cd ../../../../../../../ofi/libfabric && pwd` 
@@ -67,9 +64,22 @@ bgq_driver=/soft/libraries/unsupported/V1R2M4-sys
   
 --------------------------------------------------------------------------------------------
 
-For the 0.1 release both manual and auto progress modes are working.  The default is manual which means all progress is driven manually by mpich, auto progress spawns an ofi pthread that makes progress without depending on mpich.  To build with auto progress add this to the end of the config options in simple_configure:
+For the 0.2 release both manual and auto progress modes are working.  The default is manual which means all progress is driven manually by mpich, auto progress spawns an ofi pthread that makes progress without depending on mpich.  To build with auto progress change this in the simple_configure:
+
+--with-bgq-progress=manual
+
+to this:
 
 --with-bgq-progress=auto
+
+For the 0.2 release both the basic and scalable mr modes are supported.  The default is now basic
+as it allows for MPI_Put hardware accleration.  To build in scalable mode change this in the simple_configure:
+
+--with-bgq-mr=basic
+
+to this:
+
+--with-bgq-mr=scalable
 
 then for gnu 4.7.2 build:
 cd <build_directory>
