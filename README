@@ -8,16 +8,10 @@ Then checkout the 'Release-0.2' branch:
 cd OFI-BGQ-BuildEnv
 git checkout Release-0.2
 
-Then clone the pkcoff libfabric github repo into this environment:
+Then clone the ofiwg libfabric github repo master branch into this environment:
+
 cd ofi
-
-git clone https://github.com/pkcoff/libfabric.git
-cd libfabric
-
-And checkout the 'BGQ-Release-0.2' branch:
-
-git checkout BGQ-Release-0.2
-cd ..
+git clone https://github.com/ofiwg/libfabric.git
 
 Then clone the pmodels mpich github repo into this environment:
 
