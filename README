@@ -86,3 +86,10 @@ then:
 make -j16 install
 
 Look in <build_env_root_dir>/config.site for details on compilers and options.
+
+POTENTIAL GCC COMPILE FAILURE NOTE: If you see a failure like this:
+
+<root dir>/OFI-BGQ-BuildEnv/mpi/mpich/src/mpid/ch4/netmod/ofi/libfabric/prov/bgq/src/fi_bgq_init.c:337:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+
+It is happening because -I. is not the first include to the gcc compiler in your include path and an incorrect header file is being found and a macro is not being processed correctly.  This is probably due to a configuration setting in your shell and how gcc creates the include path.  If your shell is setting C_INCLUDE_PATH comment that out and it should resolve the issue.
+
