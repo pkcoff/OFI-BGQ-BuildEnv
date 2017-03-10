@@ -92,6 +92,11 @@ CONFIG_TOOLCHAIN=gnu4.7  CONFIG_FLAVOR=debug <build_env_root_dir>/ofi-bgq/mpi/si
 OPT build:
 CONFIG_TOOLCHAIN=gnu4.7  CONFIG_FLAVOR=optimized <build_env_root_dir>/ofi-bgq/mpi/simple_configure
 
+NOTE ON RECONFIGURING:
+If you need to reconfigure for any reason (say you rebased to a new version of libfabric
+and needed to autogen again) you must first completely delete everything in the build directory
+otherwise you will run into build and runtime issues.
+
 then:
 make -j16 install
 
