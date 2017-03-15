@@ -1,6 +1,6 @@
 # MPICH CH4 over OFI Libfabric on Blue Gene /Q
 
-This README contains instructions on how to download and build MPICH CH4 over OFI Libfabric on Blue Gene /Q.  The following instuctions are tailored for Release 0.2 for now.  Please note that the V1R2M4 driver is required. 
+This README contains instructions on how to download and build MPICH CH4 over OFI Libfabric on Blue Gene /Q.  The following instuctions are tailored for Release 0.2 for now.  Please note that the V1R2M4 driver is required.  See "BUILDING ON MIRA" below for specifics.
 
 ## Requirements
 
@@ -61,7 +61,11 @@ vi simple_configure
 ### SPECIAL NOTE FOR BUILDING ON MIRA:
 --------------------------------------------------------------------------------------------
 
-Mira is currently still at V1R2M2 and has not yet moved to V1R2M4.  As a workaround for now,
+If you are not compiling against V1R2M4 you might see an error like this:
+
+    error: static declaration of 'Kernel_GetJobID' follows non-static declaration
+
+Argonne's Mira machine, for example, is currently still at V1R2M2 and has not yet moved to V1R2M4.  As a workaround for now,
 the V1R2M4 system files have been made available in `/soft/libraries/unsupported/V1R2M4-sys`.
 To utilize them, you'll need to change the following 2 files:
 
