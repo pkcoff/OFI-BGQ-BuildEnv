@@ -159,7 +159,7 @@ fi
 
 if test "$PACKAGE_NAME" = "ROMIO" ; then
 
-	with_file_system=ufs+nfs+gpfs:BGQ && echo "with_file_system=$with_file_system"
+	with_file_system=ufs+gpfs:BGQ && echo "with_file_system=$with_file_system"
 
 fi
 
