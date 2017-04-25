@@ -1,6 +1,6 @@
 # MPICH CH4 over OFI Libfabric on Blue Gene /Q
 
-This README contains instructions on how to download and build MPICH CH4 over OFI Libfabric on Blue Gene /Q.  The following instuctions are tailored for Release 0.2 for now.  Please note that the V1R2M4 driver is required.  See "BUILDING ON MIRA" below for specifics.
+This README contains instructions on how to download and build MPICH CH4 over OFI Libfabric on Blue Gene /Q.  Please note that the V1R2M4 driver is required.  See "BUILDING ON MIRA" below for specifics.
 
 ## Requirements
 
@@ -88,7 +88,7 @@ location you can specify that by adding this parameter at the end of the simple_
 
     --with-bgq-src=<full path to source dir>
 
-For the 0.2 release both manual and auto progress modes are working.  The default is manual which
+Both ofi manual and auto progress modes are implemented.  The default is manual which
 means all progress is driven manually by mpich, auto progress spawns an ofi pthread that makes progress
 without depending on mpich.  To build with auto progress change this in the simple_configure:
 
@@ -98,7 +98,7 @@ to this:
 
     --with-bgq-progress=auto
 
-For the 0.2 release both the basic and scalable mr modes are supported.  The default is now basic
+Both the basic and scalable mr modes are supported.  The default is now basic
 as it allows for MPI_Put hardware accleration.  To build in scalable mode change this in the simple_configure:
 
     --with-bgq-mr=basic
@@ -147,4 +147,6 @@ manager this could be an issue unbeknownst to you.  If you experience a hang in 
 job log for the actual runjob command that was executed, if you see a --corner / --shape parameter specified or
 the RUNJOB_CORNER / RUNJOB_SHAPE environment variable set then you are running as a subblock.  One workaround is to
 run in some sort of script mode where you can specify the runjob command directly, omitting the corner and shape.
+The ofi auto-progress mode only works at 16 ppn and lower due to the need for the pthread and issues running at 32 ppn, furthermore performance is more likely detrimental vs manual at 32ppn.
+If your app uses MPIX routines these are based on PAMI and will fail.  Contact Paul Coffman at pcoffman@anl.gov and you will be provided alternative code that uses the SPI layer directly instead.
 
