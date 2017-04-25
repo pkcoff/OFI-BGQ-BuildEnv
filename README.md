@@ -12,13 +12,6 @@ cd  <build_env_root_dir>
 git clone https://github.com/pkcoff/OFI-BGQ-BuildEnv.git
 ```
 
-Then checkout the 'Release-0.2' branch:
-
-```
-cd OFI-BGQ-BuildEnv
-git checkout Release-0.2
-```
-
 Then clone the ofiwg libfabric github repo master branch into this environment:
 
 ```
