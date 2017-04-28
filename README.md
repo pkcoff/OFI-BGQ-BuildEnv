@@ -98,6 +98,18 @@ to this:
 
     --with-bgq-progress=auto
 
+Additionally, the capatbiliy setting needs to be correctly toggled for manual/auto progress mode at compile time.
+The default is manual, so to build in auto progress mode change this line in
+mpi/mpich/src/mpid/ch4/netmod/ofi/ofi_capability_sets.h:
+
+#define MPIDI_OFI_ENABLE_DATA_AUTO_PROGRESS_BGQ MPIDI_OFI_OFF
+
+to this:
+
+#define MPIDI_OFI_ENABLE_DATA_AUTO_PROGRESS_BGQ MPIDI_OFI_ON
+
+and then change it back to again build in manual mode.
+
 Both the basic and scalable mr modes are supported.  The default is now basic
 as it allows for MPI_Put hardware accleration.  To build in scalable mode change this in the simple_configure:
 
