@@ -28,7 +28,7 @@ git clone https://github.com/pmodels/mpich.git
 
 NOTE: Workaround for current MPICH pmi change:
 Due to some pmi changes for now you will need to revert this commit:
-cd mpich
+cd mpich ;
 git revert ec1e13b
 
 
