@@ -45,5 +45,6 @@ $srcdir/configure							\
 --with-ch4-ofi-direct-provider=bgq					\
 --with-bgq-progress=manual						\
 --with-bgq-mr=basic							\
+--with-pmi-bgq								\
 --enable-handle-allocation=default
 #

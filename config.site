@@ -102,7 +102,7 @@ if test "$PACKAGE_NAME" = "MPICH" ; then
 	# because the bgq control system is the 'process manager' and the ofi
 	# bgq provider embeds an implementation of pmi
 	with_pm=no && echo "with_pm=$with_pm"
-	with_pmi=no && echo "with_pmi=$with_pmi"
+	with_pmi=bgq && echo "with_pmi=$with_pmi"
 	MPID_NO_PMI=yes && echo "MPID_NO_PMI=$MPID_NO_PMI"
 
 	with_valgrind=no && echo "with_valgrind=$with_valgrind"
