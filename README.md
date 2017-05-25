@@ -26,12 +26,6 @@ cd ../mpi
 git clone https://github.com/pmodels/mpich.git
 ```
 
-NOTE: Workaround for current MPICH pmi change:
-Due to some pmi changes for now you will need to revert this commit:
-cd mpich ;
-git revert ec1e13b
-
-
 ## Setup/Configure
 
 Create a link from the mpich directory into libfabric to support the libfabric embedded build within mpich:
