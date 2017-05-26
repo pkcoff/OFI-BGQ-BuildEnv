@@ -39,7 +39,8 @@ Then run autoconf as follows:
 
 ```
 cd <build_env_root_dir>/OFI-BGQ-BuildEnv
-# add the --with-autotools in the Argonne machines due to downlevel autoconf default
+# add the --with-autotools in the Argonne machines due to downlevel autoconf default and put in your PATH
+export PATH=/soft/buildtools/autotools/feb2015/bin:$PATH
 ./autogen.sh --with-autotools=/soft/buildtools/autotools/feb2015/bin
 ./configure
 cd ofi/libfabric
