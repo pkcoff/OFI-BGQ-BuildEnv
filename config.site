@@ -92,6 +92,17 @@ if test "$PACKAGE_NAME" = "libfabric" ; then
 	fi
 fi
 
+if test "$PACKAGE_NAME" = "OFI-MICRO-BENCHMARKS" ; then
+#	with_libpmi=no
+	GNU_CPPFLAGS="-DFABRIC_DIRECT -I/bgsys/drivers/ppcfloor/spi/include/kernel/cnk -I/bgsys/drivers/ppcfloor"
+	GNU_LDFLAGS="-static"
+	GCC_OPT_CFLAGS="$GNU_CPPFLAGS -falign-functions=16 -falign-loops=16 -finline-limit=268435456 -Wno-unused-but-set-variable -O3"
+	GCC_OP_LDFLAGS="$GNU_LDFLAGS"
+
+	GCC_DEBUG_CFLAGS="$GNU_CPPFLAGS"
+	GCC_DEBUG_LDFLAGS="$GNU_LDFLAGS"
+fi
+
 if test "$PACKAGE_NAME" = "MPICH" ; then
 
 	with_device=ch4:ofi:bgq && echo "with_device=$with_device"
@@ -149,11 +160,13 @@ if test "$PACKAGE_NAME" = "MPICH" ; then
 	MPICHLIB_CPPFLAGS="-I/bgsys/drivers/ppcfloor/spi/include/kernel/cnk -I/bgsys/drivers/ppcfloor"
 
 	if test "$CONFIG_FLAVOR" = "optimized" ; then
-		MPICHLIB_CFLAGS="$OPT_CFLAGS -Wno-ignored-qualifiers -Wall -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I$configdir/src/mpid/ch4/netmod/ofi/libfabric/prov/bgq/include -I$srcdir/src/mpid/ch4/netmod/ofi/libfabric/prov/bgq/include"
-		MPICHLIB_CXXFLAGS="$OPT_CFLAGS -Wno-ignored-qualifiers -Wall -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I$configdir/src/mpid/ch4/netmod/ofi/libfabric/prov/bgq/include -I$srcdir/src/mpid/ch4/netmod/ofi/libfabric/prov/bgq/include"
+		MPICHLIB_CFLAGS="-DF77_USE_PMPI $OPT_CFLAGS -Wno-ignored-qualifiers -Wall -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I$configdir/src/mpid/ch4/netmod/ofi/libfabric/prov/bgq/include -I$srcdir/src/mpid/ch4/netmod/ofi/libfabric/prov/bgq/include"
+		MPICHLIB_CXXFLAGS="-DF77_USE_PMPI $OPT_CFLAGS -Wno-ignored-qualifiers -Wall -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I$configdir/src/mpid/ch4/netmod/ofi/libfabric/prov/bgq/include -I$srcdir/src/mpid/ch4/netmod/ofi/libfabric/prov/bgq/include"
+		MPICHLIB_FFLAGS="-DF77_USE_PMPI"
 	else
-                MPICHLIB_CFLAGS="-Wno-ignored-qualifiers -Wall -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I$configdir/src/mpid/ch4/netmod/ofi/libfabric/prov/bgq/include -I$srcdir/src/mpid/ch4/netmod/ofi/libfabric/prov/bgq/include"
-                MPICHLIB_CXXFLAGS="-Wno-ignored-qualifiers -Wall -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I$configdir/src/mpid/ch4/netmod/ofi/libfabric/prov/bgq/include -I$srcdir/src/mpid/ch4/netmod/ofi/libfabric/prov/bgq/include"
+                MPICHLIB_CFLAGS="-DF77_USE_PMPI -Wno-ignored-qualifiers -Wall -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I$configdir/src/mpid/ch4/netmod/ofi/libfabric/prov/bgq/include -I$srcdir/src/mpid/ch4/netmod/ofi/libfabric/prov/bgq/include"
+                MPICHLIB_CXXFLAGS="-DF77_USE_PMPI -Wno-ignored-qualifiers -Wall -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I$configdir/src/mpid/ch4/netmod/ofi/libfabric/prov/bgq/include -I$srcdir/src/mpid/ch4/netmod/ofi/libfabric/prov/bgq/include"
+		MPICHLIB_FFLAGS="-DF77_USE_PMPI"
 	fi
 fi
 
