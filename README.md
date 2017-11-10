@@ -12,28 +12,17 @@ cd  <build_env_root_dir>
 git clone https://github.com/pkcoff/OFI-BGQ-BuildEnv.git
 ```
 
-Then clone the ofiwg libfabric github repo master branch into this environment:
+The old instructions had you cloning and building the libfabric git repo separately, however recently the
+mpich embedded libfabric build has changed to treat libfabric as a submodule, so the libfabric gitrepo is
+cloned for you within the mpich ofi netmode.  So now all you have to do is clone the pmodels mpich github
+repo into this environment:
 
 ```
-cd ofi
-git clone https://github.com/ofiwg/libfabric.git
-```
-
-Then clone the pmodels mpich github repo into this environment:
-
-```
-cd ../mpi
+cd mpi
 git clone https://github.com/pmodels/mpich.git
 ```
 
 ## Setup/Configure
-
-Create a link from the mpich directory into libfabric to support the libfabric embedded build within mpich:
-
-```
-cd mpich/src/mpid/ch4/netmod/ofi &&   ln -s `cd ../../../../../../../ofi/libfabric && pwd`
-```
-
 
 Then run autoconf as follows:
 
