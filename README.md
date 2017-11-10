@@ -14,7 +14,7 @@ git clone https://github.com/pkcoff/OFI-BGQ-BuildEnv.git
 
 The old instructions had you cloning and building the libfabric git repo separately, however recently the
 mpich embedded libfabric build has changed to treat libfabric as a submodule, so the libfabric gitrepo is
-cloned for you within the mpich ofi netmode.  So now all you have to do is clone the pmodels mpich github
+cloned for you within the mpich ofi netmod.  So now all you have to do is clone the pmodels mpich github
 repo into this environment:
 
 ```
@@ -32,9 +32,7 @@ cd <build_env_root_dir>/OFI-BGQ-BuildEnv
 export PATH=/soft/buildtools/autotools/feb2015/bin:$PATH
 ./autogen.sh --with-autotools=/soft/buildtools/autotools/feb2015/bin
 ./configure
-cd ofi/libfabric
-./autogen.sh --with-autotools=/soft/buildtools/autotools/feb2015/bin
-cd ../../mpi/mpich
+cd mpi/mpich
 ./autogen.sh --with-autotools=/soft/buildtools/autotools/feb2015/bin
 cd ..
 vi simple_configure
