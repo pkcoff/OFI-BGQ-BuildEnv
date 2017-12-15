@@ -20,6 +20,8 @@ repo into this environment:
 ```
 cd mpi
 git clone https://github.com/pmodels/mpich.git
+cd mpich
+git submodule update --init
 ```
 
 ## Setup/Configure
